@@ -5,7 +5,32 @@ fn main() {
     println!("UnionResult Size {}", core::mem::size_of::<UnionResult>());
     println!("UnionResult Ok {}", UnionResult::ok(42));
     println!("UnionResult Err {}", UnionResult::err(42));
+    println!("{}", core::mem::size_of::<(u64, u32)>());
+    println!("{}", core::mem::size_of::<Result<(u16, u64), (u64, u32)>>());
+    println!("{}", core::mem::size_of::<ResultWrap<u16, (u64, u32)>>());
+    println!("{}", core::mem::size_of::<ResultAlt<u16, (u64, u32)>>());
+    println!("{}", core::mem::size_of::<ResultAlt2>());
 }
+
+#[repr(packed)]
+struct ResultWrap<T, E>(Result<T, E>);
+
+#[repr(u8)]
+pub enum ResultAlt<T, E> {
+    /// Contains the success value
+    Ok(T),
+    /// Contains the error value
+    Err(E),
+}
+
+#[repr(align(1))]
+pub enum ResultAlt2 {
+    /// Contains the success value
+    Ok(u8),
+    /// Contains the error value
+    Err((u64, u32)),
+}
+
 #[derive(Specifier)]
 pub enum Status {
     Ok, Err,
