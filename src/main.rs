@@ -1,6 +1,5 @@
 use std::fmt::Display;
 use modular_bitfield::prelude::*;
-use std::result::Result;
 
 fn main() {
     println!("UnionResult Size {}", core::mem::size_of::<UnionResult>());
